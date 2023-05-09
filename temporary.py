@@ -9,8 +9,8 @@ from dhooks import *
 
 
 def main():
-    username = 'e213810'
-    password = 'Adele1921.'
+    username = 'USERNAME'
+    password = 'PASSWORD'
     disable_warnings(InsecureRequestWarning)
     s = requests.Session()
     login(username, password, s)
@@ -154,8 +154,7 @@ def send_hook(title, mode, url, username):
         mode = 'Open-manual'
     now = str(datetime.utcnow().strftime('%d-%m-%Y'))
     hook = Webhook(
-        'https://discord.com/api/webhooks/801844941781073940/8sYwB54PmyK7dp6YA'
-        'g-YHvz3V1pG887gyKHu35wHGbK29MI4gx7g4tP1AWMgGnQV4WsI')
+        'YOUR_WEBHOOK')
     embed = Embed(
         color=0x202020
     )
