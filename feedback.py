@@ -6,17 +6,18 @@ from urllib3 import disable_warnings
 import json
 from datetime import datetime
 from dhooks import *
+import threading
+import csv
+import time
 
 
-def main():
-    username = 'USERNAME'
-    password = 'PASSWORD'
+def main(username, password, webhook):
     disable_warnings(InsecureRequestWarning)
     s = requests.Session()
     login(username, password, s)
     choice = gui()
     url_list = questionnaire(s)
-    submit_quest(s, url_list, choice, username)
+    submit_quest(s, url_list, choice, username, webhook)
 
 
 def gui():
@@ -82,7 +83,7 @@ def questionnaire(s):
     return url_list
 
 
-def submit_quest(s, url_list, choice, username):
+def submit_quest(s, url_list, choice, username, webhook):
     sat = ''
     if choice == 0:
         sat = gui2('Overall selection.')
@@ -128,7 +129,7 @@ def submit_quest(s, url_list, choice, username):
         r = s.post(i, headers=headers, data=data)
         if 'The form submitted did not originate from the expected site' not in str(r.text):
             print(']---- Form sent ----[')
-            send_hook(title, choice, i, username)
+            send_hook(title, choice, i, username, webhook)
         else:
             print('|#### Error submitting form ####|')
             return
@@ -145,7 +146,7 @@ def gui2(title):
     return choice+1
 
 
-def send_hook(title, mode, url, username):
+def send_hook(title, mode, url, username, webhook):
     if mode == 0:
         mode = 'Full auto'
     elif mode == 1:
@@ -153,8 +154,7 @@ def send_hook(title, mode, url, username):
     else:
         mode = 'Open-manual'
     now = str(datetime.utcnow().strftime('%d-%m-%Y'))
-    hook = Webhook(
-        'YOUR_WEBHOOK')
+    hook = Webhook(webhook)
     embed = Embed(
         color=0x202020
     )
@@ -171,4 +171,25 @@ def send_hook(title, mode, url, username):
     hook.send(embed=embed)
 
 
-main()
+def start():
+    with open('data.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        i = 0
+        for row in csv_reader:
+            i += 1
+            if line_count == 0:
+                line_count += 1
+            else:
+                time.sleep(0.03)
+                try:
+                    username = row[0]
+                    password = row[1]
+                    webhook = row[2]
+                    thread = threading.Thread(target=main, args=(username, password, webhook))
+                    thread.start()
+                except Exception as e:
+                    pass
+
+
+start()
