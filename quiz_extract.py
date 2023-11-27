@@ -5,8 +5,8 @@ from time import sleep
 
 class QuizExtractor:
     def __init__(self):
-        self.code = 'e213810'
-        self.password = 'Adele1921.'
+        self.user = ''
+        self.password = ''
         self.session = requests.Session()
         self.subject_to_get = 'https://escpeurope.blackboard.com/webapps/bb-mygrades-BB5ea86ce51c1ef/myGrades?course_id=_41587_1&stream_name=mygrades&is_stream=false'
         self.quiz_link_intermediate = []
@@ -32,10 +32,10 @@ class QuizExtractor:
             "sec-fetch-user": "?1",
             "upgrade-insecure-requests": "1"
         }
-        body = f"user_id={self.code}&password={self.password}&login=Sign+In&action=login&new_loc=&blackboard.platform.security.NonceUtil.nonce.ajax={token}"
+        body = f"user_id={self.user}&password={self.password}&login=Sign+In&action=login&new_loc=&blackboard.platform.security.NonceUtil.nonce.ajax={token}"
         r = self.session.post("https://escpeurope.blackboard.com/webapps/login/", headers=headers, data=body)
 
-        if str(r.text).split('"batchUid":"')[1].split('"')[0] == self.code:
+        if str(r.text).split('"batchUid":"')[1].split('"')[0] == self.user:
             print('logged in')
             return
 
