@@ -1,11 +1,15 @@
 # ESCP-utilities
 
-This repository will include a variety of scripts to make your ESCP experience better and more interesting.
+Welcome to ESCP-utilities, a repository dedicated to enhancing your ESCP experience with convenient scripts. Whether you're looking to streamline feedback processes or extract quizzes for exam preparation, this collection of scripts has got you covered.
 
-* feedback.py *
+## Features:
 
-Don't have time or don't care to give feedback? Run the code and choose the modes, it will finish in no time.
+### feedback.py
 
-* quiz_extract.py *
+Don't let the hassle of giving feedback slow you down. Use `feedback.py` to streamline the process. Simply run the code, choose your preferred modes, and watch as it efficiently gathers feedback in no time.
 
-Have an exam soon or want to revise your knowledge? Input the link for the subject you want to extract all the quizzes from and run it up. 
+### quiz_extract.py
+
+Preparing for an upcoming exam or revising your knowledge? `quiz_extract.py` is here to help. Input the link for the subject you're interested in, run the script, and effortlessly extract all the quizzes you need for effective revision.
+
+Explore the ESCP-utilities repository and make your ESCP journey better and more interesting. Your feedback and contributions are always welcome!
