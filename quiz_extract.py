@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+import threading
+import csv
 from time import sleep
-
 
 class QuizExtractor:
     def __init__(self):
@@ -91,9 +92,31 @@ class QuizExtractor:
                 except:
                     pass
 
+    def main(self):
+        self.login()
+        self.get_quiz()
+        self.retrieve_quiz_link()
+        self.get_answers()
+
+    def start(self):
+        with open('data.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            i = 0
+            for row in csv_reader:
+                i += 1
+                if line_count == 0:
+                    line_count += 1
+                else:
+                    sleep(0.03)
+                    try:
+                        self.user = row[0]
+                        self.password = row[1]
+                        thread = threading.Thread(target=self.main)
+                        thread.start()
+                    except Exception as e:
+                        pass
+
 
 bot = QuizExtractor()
-bot.login()
-bot.get_quiz()
-bot.retrieve_quiz_link()
-bot.get_answers()
+bot.start()
